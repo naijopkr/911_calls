@@ -99,3 +99,15 @@ df['month'] = df['timeStamp'].apply(lambda time: calendar.month_abbr[time.month]
 top_month = df.groupby('month').count().sort_values(ascending=False, by='e')
 print(top_month['e'])
 print()
+
+print_color('Create a countplot of the \'day_of_week\' column with the hue based on \'Reason\' column')
+try:
+    fig3, ax3 = plt.subplots()
+    sns.countplot(df['day_of_week'], hue=df['Reason'], ax=ax3)
+    plt.savefig('output/day_of_week.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
