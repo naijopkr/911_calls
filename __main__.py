@@ -111,3 +111,15 @@ else:
     print('Success!')
 finally:
     print()
+
+print_color('Create a countplot of the \'month\' column with the hue based on \'Reason\' column')
+try:
+    fig4, ax4 = plt.subplots()
+    sns.countplot(df['month'], hue=df['Reason'], ax=ax4)
+    plt.savefig('output/month.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
