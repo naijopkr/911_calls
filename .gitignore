@@ -2,3 +2,4 @@ venv/
 .vscode/
 __pycache__/
 911.csv
+output/

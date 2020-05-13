@@ -1,8 +1,6 @@
-import numpy as np
 import pandas as pd
-import matplotlib as plt
-import plotly.graph_objects as go
-import plotly.io as pio
+import matplotlib.pyplot as plt
+import seaborn as sns
 import re
 
 from termcolor import colored
@@ -48,3 +46,8 @@ print(f'Unique titles: {len(unique_title)}')
 print_color('Get the reason in the column \'title\' and use apply to create a new column with it', 'green')
 df['Reason'] = df['title'].apply(lambda title: re.match('(fire|ems|traffic)', title, flags=re.IGNORECASE)[0])
 print(df.head())
+
+print_color('Use seaborn to creat a countplot of 911 calls by Reason', 'green')
+f = plt.Figure()
+f.add_subplot = sns.countplot(df['Reason'])
+plt.savefig('output/reasons.png')
