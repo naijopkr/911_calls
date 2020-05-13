@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib as plt
 import plotly.graph_objects as go
 import plotly.io as pio
+import re
 
 from termcolor import colored
 
@@ -43,3 +44,7 @@ print()
 print_color('Take a look at the \'title\' column, how many unique title codes are there?', 'green')
 unique_title = df['title'].unique()
 print(f'Unique titles: {len(unique_title)}')
+
+print_color('Get the reason in the column \'title\' and use apply to create a new column with it', 'green')
+df['Reason'] = df['title'].apply(lambda title: re.match('(fire|ems|traffic)', title, flags=re.IGNORECASE)[0])
+print(df.head())
