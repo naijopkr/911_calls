@@ -38,3 +38,7 @@ print_color('What are the top 5 townships (twp) for 911 calls?', 'green')
 top_twp = df.groupby('twp').count().sort_values(ascending = False, by = 'e')
 print(top_twp['e'].head(5))
 print()
+
+print_color('Take a look at the \'title\' column, how many unique title codes are there?', 'green')
+unique_title = df['title'].unique()
+print(f'Unique titles: {len(unique_title)}')
