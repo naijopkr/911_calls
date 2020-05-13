@@ -21,3 +21,7 @@ print(df.info())
 
 print('911 CALLS HEAD')
 print(df.head())
+
+print('What are the top 5 zipcodes for 911 calls?')
+top_zipcodes = df.groupby('zip').count().sort_values(ascending = False, by = 'e')
+print(top_zipcodes['e'].head(5))
