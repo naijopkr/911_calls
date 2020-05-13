@@ -18,20 +18,23 @@ df = pd.read_csv('911.csv', dtype=dict(
     e = str
 ))
 
-print(colored('911 CALLS INFO', color='red'))
+def print_color(text, color):
+    print(colored(text, color=color))
+
+print_color('911 CALLS INFO', 'red')
 print(df.info())
 print()
 
-print(colored('911 CALLS HEAD', color='red'))
+print_color('911 CALLS HEAD', 'red')
 print(df.head())
 print()
 
-print(colored('What are the top 5 zipcodes for 911 calls?', color='green'))
+print_color('What are the top 5 zipcodes for 911 calls?', 'green')
 top_zipcodes = df.groupby('zip').count().sort_values(ascending = False, by = 'e')
 print(top_zipcodes['e'].head(5))
 print()
 
-print(colored('What are the top 5 townships (twp) for 911 calls?', color='green'))
+print_color('What are the top 5 townships (twp) for 911 calls?', 'green')
 top_twp = df.groupby('twp').count().sort_values(ascending = False, by = 'e')
 print(top_twp['e'].head(5))
 print()
