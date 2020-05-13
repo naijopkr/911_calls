@@ -83,3 +83,19 @@ print_color('Convert the \'timeStamp\' column to timestamp type')
 df['timeStamp'] = pd.to_datetime(df['timeStamp'])
 print(df.info())
 print()
+
+print_color('Create 3 new columns Hour, Day of Week and Month based on the timeStamp column.')
+df['Hour'] = df['timeStamp'].apply(lambda time: time.hour)
+print(df['Hour'].head())
+print()
+
+df['day_of_week'] = df['timeStamp'].apply(lambda time: calendar.day_abbr[time.dayofweek])
+top_day_week = df.groupby('day_of_week').count().sort_values(ascending=False, by='e')
+print(top_day_week['e'])
+print()
+
+
+df['month'] = df['timeStamp'].apply(lambda time: calendar.month_abbr[time.month])
+top_month = df.groupby('month').count().sort_values(ascending=False, by='e')
+print(top_month['e'])
+print()
