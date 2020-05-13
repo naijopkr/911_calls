@@ -48,6 +48,11 @@ df['Reason'] = df['title'].apply(lambda title: re.match('(fire|ems|traffic)', ti
 print(df.head())
 
 print_color('Use seaborn to creat a countplot of 911 calls by Reason', 'green')
-f = plt.Figure()
-f.add_subplot = sns.countplot(df['Reason'])
+fig1, ax1 = plt.subplots()
+sns.countplot(df['Reason'], ax=ax1)
 plt.savefig('output/reasons.png')
+
+print_color('Some extra, training to plot different graphs in the same file.', 'green')
+fig2, ax2 = plt.subplots()
+sns.scatterplot(x=df['lat'], y=df['lng'], ax=ax2)
+plt.savefig('output/scatter_lat_lng.png')
