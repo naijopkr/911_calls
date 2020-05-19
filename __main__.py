@@ -31,34 +31,44 @@ print(df.head())
 print()
 
 print_color('What are the top 5 zipcodes for 911 calls?')
-top_zipcodes = df.groupby('zip').count().sort_values(ascending = False, by = 'e')
-print(top_zipcodes['e'].head(5))
+print(df['zip'].value_counts().head(5))
 print()
 
 print_color('What are the top 5 townships (twp) for 911 calls?')
-top_twp = df.groupby('twp').count().sort_values(ascending = False, by = 'e')
-print(top_twp['e'].head(5))
+print(df['twp'].value_counts().head(5))
 print()
 
-print_color('Take a look at the \'title\' column, how many unique title codes are there?')
-unique_title = df['title'].unique()
-print(f'Unique titles: {len(unique_title)}')
+print_color(
+    'Take a look at the \'title\' column, how many ' +
+    'unique title codes are there?'
+)
+unique_title = df['title'].nunique()
+print(f'Unique titles: {unique_title}')
 print()
 
-print_color('Get the reason in the column \'title\' and use apply to create a new column with it')
-df['Reason'] = df['title'].apply(lambda title: re.match('(fire|ems|traffic)', title, flags=re.IGNORECASE)[0])
+print_color(
+    'Get the reason in the column \'title\' and ' +
+    'use apply to create a new column with it'
+)
+df['Reason'] = df['title'].apply(
+    lambda title:
+        re.match(
+            '(fire|ems|traffic)',
+            title,
+            flags=re.IGNORECASE
+        )[0]
+)
 print(df.head())
 print()
 
 print_color('What is the most common Reason for 911 call?')
-top_reason = df.groupby('Reason').count().sort_values(ascending=False, by='e')
-print(top_reason['e'])
+print(df['Reason'].value_counts())
 print()
 
 print_color('Use seaborn to creat a countplot of 911 calls by Reason')
 try:
     fig1, ax1 = plt.subplots()
-    sns.countplot(df['Reason'], ax=ax1)
+    sns.countplot(df['Reason'], ax=ax1, palette='viridis')
     plt.savefig('output/reasons.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -67,7 +77,10 @@ else:
 finally:
     print()
 
-print_color('Some extra, training to plot different graphs in the same file.')
+print_color(
+    'Some extra, training to plot different ' +
+    'graphs in the same file.'
+)
 try:
     fig2, ax2 = plt.subplots()
     sns.scatterplot(x=df['lat'], y=df['lng'], ax=ax2)
@@ -84,33 +97,61 @@ df['timeStamp'] = pd.to_datetime(df['timeStamp'])
 print(df.info())
 print()
 
-print_color('Create 3 new columns Hour, Day of Week and Month based on the timeStamp column.')
-df['Hour'] = df['timeStamp'].apply(lambda time: time.hour)
+print_color(
+    'Create 3 new columns Hour, Day of Week ' +
+    'and Month based on the timeStamp column.'
+)
+df['Hour'] = df['timeStamp'].apply(
+    lambda time:
+        time.hour
+)
 print(df['Hour'].head())
 print()
 
-df['day_of_week'] = df['timeStamp'].apply(lambda time: calendar.day_abbr[time.dayofweek])
-top_day_week = df.groupby('day_of_week').count().sort_values(ascending=False, by='e')
-print(top_day_week['e'])
+df['day_of_week'] = df['timeStamp'].apply(
+    lambda time:
+        calendar.day_abbr[time.dayofweek]
+)
+print(df['day_of_week'].value_counts())
 print()
 
 
 df['month'] = df['timeStamp'].apply(
-    lambda time: time.month
+    lambda time:
+        time.month
 )
 df['month_abbr'] = df['timeStamp'].apply(
-    lambda time: calendar.month_abbr[time.month]
+    lambda time:
+        calendar.month_abbr[time.month]
 )
-top_month = df.groupby('month').count().sort_values(
-    ascending=False, by='e'
-)
-print(top_month['e'])
+print(df['month_abbr'].value_counts())
 print()
 
-print_color('Create a countplot of the \'day_of_week\' column with the hue based on \'Reason\' column')
+print_color(
+    'Create a countplot of the \'day_of_week\'' +
+    'column with the hue based on \'Reason\' column'
+)
 try:
     fig3, ax3 = plt.subplots()
-    sns.countplot(df['day_of_week'], hue=df['Reason'], ax=ax3)
+    sns.countplot(
+        x='day_of_week',
+        data=df,
+        hue='Reason',
+        palette='viridis',
+        ax=ax3
+    )
+    box = ax3.get_position()
+    ax3.set_position([
+        box.x0,
+        box.y0,
+        box.width * 0.8,
+        box.height
+    ])
+    plt.legend(
+        bbox_to_anchor=(1.05, 1),
+        loc=2,
+        borderaxespad=0
+    )
     plt.savefig('output/day_of_week.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -119,10 +160,31 @@ else:
 finally:
     print()
 
-print_color('Create a countplot of the \'month\' column with the hue based on \'Reason\' column')
+print_color(
+    'Create a countplot of the \'month\' column ' +
+    'with the hue based on \'Reason\' column'
+)
 try:
     fig4, ax4 = plt.subplots()
-    sns.countplot(df['month'], hue=df['Reason'], ax=ax4)
+    sns.countplot(
+        x='month',
+        data=df,
+        hue='Reason',
+        palette='viridis',
+        ax=ax4
+    )
+    box = ax4.get_position()
+    ax4.set_position([
+        box.x0,
+        box.y0,
+        box.width * 0.8,
+        box.height
+    ])
+    plt.legend(
+        bbox_to_anchor=(1.05, 1),
+        loc=2,
+        borderaxespad=0
+    )
     plt.savefig('output/month.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -131,11 +193,16 @@ else:
 finally:
     print()
 
-print_color('Create a simple plot of the dataframe indicating the count of calls per month.')
+print_color(
+    'Create a simple plot of the dataframe ' +
+    'indicating the count of calls per month.'
+)
 count_month = df.groupby('month').count()
+print(count_month.head())
+print()
 try:
     fig5, ax5 = plt.subplots()
-    sns.lineplot(x=count_month.index, y=count_month['e'], ax=ax5)
+    count_month['e'].plot()
     plt.savefig('output/count_month.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -163,7 +230,8 @@ df['date'] = df['timeStamp'].apply(
 by_date = df.groupby('date').count()
 try:
     fig7, ax7 = plt.subplots()
-    sns.lineplot(x = by_date.index, y = by_date['e'], ax=ax7)
+    by_date['e'].plot()
+    plt.tight_layout()
     plt.savefig('output/by_date.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -178,6 +246,7 @@ traffic = df[df['Reason'] == 'Traffic'].groupby('date').count()
 try:
     fig8, ax8 = plt.subplots()
     sns.lineplot(x=traffic.index, y=traffic['e'], ax=ax8)
+    plt.title('Traffic')
     plt.savefig('output/traffic.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -192,6 +261,7 @@ fire = df[df['Reason'] == 'Fire'].groupby('date').count()
 try:
     fig9, ax9 = plt.subplots()
     sns.lineplot(x=fire.index, y=fire['e'], ax=ax9)
+    plt.title('Fire')
     plt.savefig('output/fire.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -206,6 +276,7 @@ ems = df[df['Reason'] == 'EMS'].groupby('date').count()
 try:
     fig10, ax10 = plt.subplots()
     sns.lineplot(x=ems.index, y=ems['e'], ax=ax10)
+    plt.title('EMS')
     plt.savefig('output/ems.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -222,7 +293,7 @@ print(hours_columns['e'].head())
 
 try:
     fig11, ax11 = plt.subplots()
-    sns.heatmap(data=hours_columns['e'], ax=ax11)
+    sns.heatmap(data=hours_columns['e'], ax=ax11, cmap='viridis')
     plt.savefig('output/hour_day_heatmap.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -234,7 +305,7 @@ finally:
 print_color('Plot day of week vs hour cluster grid')
 try:
     fig12, ax12 = plt.subplots()
-    sns.clustermap(data=hours_columns['e'])
+    sns.clustermap(data=hours_columns['e'], cmap='viridis')
     plt.savefig('output/hour_day_cluster.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -253,7 +324,7 @@ print()
 print_color('Month vs day of week heatmap')
 try:
     fig13, ax13 = plt.subplots()
-    sns.heatmap(data=month_columns['e'], ax=ax13)
+    sns.heatmap(data=month_columns['e'], ax=ax13, cmap='viridis')
     plt.savefig('output/month_day_heatmap.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
@@ -266,7 +337,7 @@ print_color('Month vs day of week cluster')
 try:
     fig14, ax14 = plt.subplots()
     sns.clustermap(data=month_columns['e'])
-    plt.savefig('output/month_day_cluster.png')
+    plt.savefig('output/month_day_cluster.png', cmap='viridis')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
 else:
