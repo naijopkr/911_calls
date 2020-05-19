@@ -135,8 +135,20 @@ print_color('Create a simple plot of the dataframe indicating the count of calls
 count_month = df.groupby('month').count()
 try:
     fig5, ax5 = plt.subplots()
-    sns.lineplot(x=count_month.index, y=count_month['e'])
+    sns.lineplot(x=count_month.index, y=count_month['e'], ax=ax5)
     plt.savefig('output/count_month.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
+
+print_color('Create a linear fit to the number of calls per month.')
+try:
+    fig6, ax6 = plt.subplots()
+    sns.lmplot(x='month', y='e', data=count_month.reset_index())
+    plt.savefig('output/liner_fit.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
 else:
