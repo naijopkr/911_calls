@@ -155,3 +155,19 @@ else:
     print('Success!')
 finally:
     print()
+
+print_color('Create new column for date.')
+df['date'] = df['timeStamp'].apply(
+    lambda time: time.date()
+)
+try:
+    fig7, ax7 = plt.subplots()
+    by_date = df.groupby('date').count()
+    sns.lineplot(x = by_date.index, y = by_date['e'])
+    plt.savefig('output/by_date.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
