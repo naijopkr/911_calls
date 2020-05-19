@@ -230,3 +230,15 @@ else:
     print('Success!')
 finally:
     print()
+
+print_color('Plot day of week vs hour cluster grid')
+try:
+    fig12, ax12 = plt.subplots()
+    sns.clustermap(data=hours_columns['e'])
+    plt.savefig('output/hour_day_cluster.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
