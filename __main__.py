@@ -216,7 +216,7 @@ finally:
 
 print_color('Plot day of week vs hour heatmap')
 hours_columns = (
-    df.groupby(['day_of_week', 'Hour']).count().unstack(level=-1)
+    df.groupby(['day_of_week', 'Hour']).count().unstack()
 )
 print(hours_columns['e'].head())
 
@@ -236,6 +236,37 @@ try:
     fig12, ax12 = plt.subplots()
     sns.clustermap(data=hours_columns['e'])
     plt.savefig('output/hour_day_cluster.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
+
+print_color('Create same plots but with month as columns')
+month_columns = (
+    df.groupby(['day_of_week', 'month']).count().unstack()
+)
+print(month_columns['e'].head())
+print()
+
+print_color('Month vs day of week heatmap')
+try:
+    fig13, ax13 = plt.subplots()
+    sns.heatmap(data=month_columns['e'], ax=ax13)
+    plt.savefig('output/month_day_heatmap.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
+
+print_color('Month vs day of week cluster')
+try:
+    fig14, ax14 = plt.subplots()
+    sns.clustermap(data=month_columns['e'])
+    plt.savefig('output/month_day_cluster.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
 else:
