@@ -160,11 +160,53 @@ print_color('Create new column for date.')
 df['date'] = df['timeStamp'].apply(
     lambda time: time.date()
 )
+by_date = df.groupby('date').count()
 try:
     fig7, ax7 = plt.subplots()
-    by_date = df.groupby('date').count()
-    sns.lineplot(x = by_date.index, y = by_date['e'])
+    sns.lineplot(x = by_date.index, y = by_date['e'], ax=ax7)
     plt.savefig('output/by_date.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
+
+print_color('Traffic by date')
+traffic = df[df['Reason'] == 'Traffic'].groupby('date').count()
+
+try:
+    fig8, ax8 = plt.subplots()
+    sns.lineplot(x=traffic.index, y=traffic['e'], ax=ax8)
+    plt.savefig('output/traffic.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
+
+print_color('Fire by date')
+fire = df[df['Reason'] == 'Fire'].groupby('date').count()
+
+try:
+    fig9, ax9 = plt.subplots()
+    sns.lineplot(x=fire.index, y=fire['e'], ax=ax9)
+    plt.savefig('output/fire.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
+
+print_color('EMS by date')
+ems = df[df['Reason'] == 'EMS'].groupby('date').count()
+
+try:
+    fig10, ax10 = plt.subplots()
+    sns.lineplot(x=ems.index, y=ems['e'], ax=ax10)
+    plt.savefig('output/ems.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
 else:
