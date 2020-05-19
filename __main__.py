@@ -213,3 +213,20 @@ else:
     print('Success!')
 finally:
     print()
+
+print_color('Plot day of week vs hour heatmap')
+hours_columns = (
+    df.groupby(['day_of_week', 'Hour']).count().unstack(level=-1)
+)
+print(hours_columns['e'].head())
+
+try:
+    fig11, ax11 = plt.subplots()
+    sns.heatmap(data=hours_columns['e'], ax=ax11)
+    plt.savefig('output/hour_day_heatmap.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
