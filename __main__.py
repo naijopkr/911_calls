@@ -95,8 +95,15 @@ print(top_day_week['e'])
 print()
 
 
-df['month'] = df['timeStamp'].apply(lambda time: calendar.month_abbr[time.month])
-top_month = df.groupby('month').count().sort_values(ascending=False, by='e')
+df['month'] = df['timeStamp'].apply(
+    lambda time: time.month
+)
+df['month_abbr'] = df['timeStamp'].apply(
+    lambda time: calendar.month_abbr[time.month]
+)
+top_month = df.groupby('month').count().sort_values(
+    ascending=False, by='e'
+)
 print(top_month['e'])
 print()
 
@@ -117,6 +124,19 @@ try:
     fig4, ax4 = plt.subplots()
     sns.countplot(df['month'], hue=df['Reason'], ax=ax4)
     plt.savefig('output/month.png')
+except:
+    print('ERROR IN PLOTTING THIS FIGURE.')
+else:
+    print('Success!')
+finally:
+    print()
+
+print_color('Create a simple plot of the dataframe indicating the count of calls per month.')
+count_month = df.groupby('month').count()
+try:
+    fig5, ax5 = plt.subplots()
+    sns.lineplot(x=count_month.index, y=count_month['e'])
+    plt.savefig('output/count_month.png')
 except:
     print('ERROR IN PLOTTING THIS FIGURE.')
 else:
